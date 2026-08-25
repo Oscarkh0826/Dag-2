@@ -1,5 +1,17 @@
 console.log("Hello World");
 
+fetch("data/rogue.csv")
+  .then((response) => response.text())
+  .then((data) => {
+    const rows = data.trim().split("\n");
+
+    const dataRows = rows.slice(1);
+
+    const parsedRows = dataRows.map((row) => row.split(","));
+
+    console.log(parsedRows);
+  });
+
 const outlawButton = document.getElementById("outlaw");
 
 const heroChoicesDiv = document.getElementById("heroChoices");
