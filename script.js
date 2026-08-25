@@ -4,6 +4,8 @@ const outlawButton = document.getElementById("outlaw");
 
 const heroChoicesDiv = document.getElementById("heroChoices");
 
+const chartContainer = document.getElementById("chartContainer");
+
 const trickster0p = 229971;
 const trickster4p = 260151;
 
@@ -11,6 +13,7 @@ const fatebound0p = 221698;
 const fatebound4p = 247243;
 
 outlawButton.addEventListener("click", function () {
+  chartContainer.style.display = "block";
   console.log("Outlaw button clicked!");
 
   const fateboundGain = ((fatebound4p - fatebound0p) / fatebound0p) * 100;
