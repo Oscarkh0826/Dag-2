@@ -2,7 +2,7 @@ const ctx = document.getElementById("outlawChart");
 
 let outlawChart;
 
-function createOutlawChart() {
+function createOutlawChart(fatebound, trickster) {
   if (outlawChart) {
     outlawChart.destroy();
   }
@@ -13,12 +13,12 @@ function createOutlawChart() {
       datasets: [
         {
           label: "0p ST",
-          data: [fatebound0p, trickster0p],
+          data: [fatebound.zeroP, trickster.zeroP],
         },
 
         {
           label: "4p ST",
-          data: [fatebound4p, trickster4p],
+          data: [fatebound.fourP, trickster.fourP],
         },
       ],
     },

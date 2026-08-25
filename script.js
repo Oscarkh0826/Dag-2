@@ -1,5 +1,10 @@
 console.log("Hello World");
 
+let rogueData = [];
+
+let fatebound;
+let trickster;
+
 fetch("data/rogue.csv")
   .then((response) => response.text())
   .then((data) => {
@@ -7,9 +12,25 @@ fetch("data/rogue.csv")
 
     const dataRows = rows.slice(1);
 
-    const parsedRows = dataRows.map((row) => row.split(","));
+    rogueData = dataRows.map((row) => {
+      const columns = row.split(",");
 
-    console.log(parsedRows);
+      return {
+        hero: columns[0],
+        zeroP: Number(columns[1]),
+        fourP: Number(columns[2]),
+      };
+    });
+
+    console.log(rogueData);
+
+    fatebound = rogueData.find((row) => row.hero === "Fatebound");
+
+    console.log(fatebound);
+
+    trickster = rogueData.find((row) => row.hero === "Trickster");
+
+    console.log(trickster);
   });
 
 const outlawButton = document.getElementById("outlaw");
@@ -18,22 +39,23 @@ const heroChoicesDiv = document.getElementById("heroChoices");
 
 const chartContainer = document.getElementById("chartContainer");
 
-const trickster0p = 229971;
-const trickster4p = 260151;
-
-const fatebound0p = 221698;
-const fatebound4p = 247243;
-
 outlawButton.addEventListener("click", function () {
   chartContainer.style.display = "block";
 
   console.log("Outlaw button clicked!");
 
-  createOutlawChart();
+  if (!fatebound || !trickster) {
+    console.log("CSV data not loaded yet. Please wait.");
+    return;
+  }
 
-  const fateboundGain = ((fatebound4p - fatebound0p) / fatebound0p) * 100;
+  createOutlawChart(fatebound, trickster);
 
-  const tricksterGain = ((trickster4p - trickster0p) / trickster0p) * 100;
+  const fateboundGain =
+    ((fatebound.fourP - fatebound.zeroP) / fatebound.zeroP) * 100;
+
+  const tricksterGain =
+    ((trickster.fourP - trickster.zeroP) / trickster.zeroP) * 100;
 
   heroChoicesDiv.innerHTML = `<h4>Fatebound</h4>
   0p ST: ${fatebound0p}<br>
