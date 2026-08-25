@@ -7,5 +7,11 @@ const heroChoicesDiv = document.getElementById("heroChoices");
 outlawButton.addEventListener("click", function () {
   console.log("Outlaw button clicked!");
 
-  heroChoicesDiv.innerHTML = "Test";
+  const fatebound0p = 221698;
+  const fatebound4p = 247243;
+
+  heroChoicesDiv.innerHTML = `<h4>Fatebound</h4><h4>Trickster</h4>
+  0p ST: ${fatebound0p}
+
+  4p ST: ${fatebound4p}`;
 });
