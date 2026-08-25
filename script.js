@@ -58,14 +58,13 @@ outlawButton.addEventListener("click", function () {
     ((trickster.fourP - trickster.zeroP) / trickster.zeroP) * 100;
 
   heroChoicesDiv.innerHTML = `<h4>Fatebound</h4>
-  0p ST: ${fatebound0p}<br>
-  4p ST: ${fatebound4p}<br>
+  0p ST: ${fatebound.zeroP}<br>
+  4p ST: ${fatebound.fourP}<br>
   Gain: ${fateboundGain.toFixed(2)}%<br>
 
   <h4>Trickster</h4>
-  0p ST: ${trickster0p}<br>
-  4p ST: ${trickster4p}<br>
+  0p ST: ${trickster.zeroP}<br>
+  4p ST: ${trickster.fourP}<br>
   Gain: ${tricksterGain.toFixed(2)}%<br>
-
 `;
 });
