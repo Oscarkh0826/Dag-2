@@ -14,7 +14,10 @@ const fatebound4p = 247243;
 
 outlawButton.addEventListener("click", function () {
   chartContainer.style.display = "block";
+
   console.log("Outlaw button clicked!");
+
+  createOutlawChart();
 
   const fateboundGain = ((fatebound4p - fatebound0p) / fatebound0p) * 100;
 
