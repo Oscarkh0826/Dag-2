@@ -1,4 +1,9 @@
 console.log("Hello World");
+
 const outlawButton = document.getElementById("outlaw");
-addEventListener("click",
-    
+
+const heroChoicesDiv = document.getElementById("herochoices");
+
+outlawButton.addEventListener("click", function () {
+  console.log("Outlaw button clicked!");
+});
