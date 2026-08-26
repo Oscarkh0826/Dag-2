@@ -42,51 +42,69 @@ const heroChoicesDiv = document.getElementById("heroChoices");
 const chartContainer = document.getElementById("chartContainer");
 
 assassinationButton.addEventListener("click", function () {
+  chartContainer.style.display = "block";
+
   console.log("Assassination button clicked!");
 
   fetch("data/assassination.csv")
     .then((response) => response.text())
     .then((data) => {
-    const rows = data.trim().split("\n");
+      const rows = data.trim().split("\n");
 
-    const dataRows = rows.slice(1);
+      const dataRows = rows.slice(1);
 
-    const parsedRows = dataRows.map((row) => {
-      const columns = row.split(",");
+      const parsedRows = dataRows.map((row) => {
+        const columns = row.split(",");
 
-      return {
-        hero: columns[0],
-        zeroP: Number(columns[1]),
-        fourP: Number(columns[2]),
-      };
+        return {
+          hero: columns[0],
+          zeroP: Number(columns[1]),
+          fourP: Number(columns[2]),
+        };
+      });
+
+      console.log(parsedRows);
+
+      const assassinationFatebound = parsedRows.find(
+        (row) => row.hero === "Fatebound",
+      );
+
+      console.log(assassinationFatebound);
+
+      const assassinationDeathstalker = parsedRows.find(
+        (row) => row.hero === "Deathstalker",
+      );
+
+      console.log(assassinationDeathstalker);
+
+      const fateboundGain =
+        ((assassinationFatebound.fourP - assassinationFatebound.zeroP) /
+          assassinationFatebound.zeroP) *
+        100;
+
+      const deathstalkerGain =
+        ((assassinationDeathstalker.fourP - assassinationDeathstalker.zeroP) /
+          assassinationDeathstalker.zeroP) *
+        100;
+
+      createRogueChart(assassinationFatebound, assassinationDeathstalker);
+
+      console.log(fateboundGain);
+
+      console.log(deathstalkerGain);
+
+      heroChoicesDiv.innerHTML = `<h4>Fatebound</h4>
+      0p ST: ${assassinationFatebound.zeroP}<br>
+      4p ST: ${assassinationFatebound.fourP}<br>
+      Gain: ${fateboundGain.toFixed(2)}%<br>
+
+      <h4>Deathstalker</h4>
+      0p ST: ${assassinationDeathstalker.zeroP}<br>
+      4p ST: ${assassinationDeathstalker.fourP}<br>
+      Gain: ${deathstalkerGain.toFixed(2)}%<br>
+    `;
+    });
 });
-
-console.log(parsedRows);
-const assassinationFatebound = parsedRows.find(
-  (row) => row.hero === "Fatebound");
-);
-
-console.log(assassinationFatebound);
-
-const assassinationDeathstalker = parsedRows.find(
-  (row) => row.hero === "Deathstalker");
-);
-
-console.log(assassinationDeathstalker);
-
-const fateboundGain =
-  ((assassinationFatebound.fourP - assassinationFatebound.zeroP) /
-    assassinationFatebound.zeroP) *
-  100;
-
-const deathstalkerGain =
-  ((assassinationDeathstalker.fourP - assassinationDeathstalker.zeroP) /
-    assassinationDeathstalker.zeroP) *
-  100;
-
-  console.log(assassinationFateboundGain);
-  
-  console.log(assassinationDeathstalkerGain);
 
 outlawButton.addEventListener("click", function () {
   chartContainer.style.display = "block";
@@ -98,7 +116,7 @@ outlawButton.addEventListener("click", function () {
     return;
   }
 
-  createOutlawChart(fatebound, trickster);
+  createRogueChart(fatebound, trickster);
 
   const fateboundGain =
     ((fatebound.fourP - fatebound.zeroP) / fatebound.zeroP) * 100;

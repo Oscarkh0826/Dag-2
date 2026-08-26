@@ -2,23 +2,23 @@ const ctx = document.getElementById("rogueChart");
 
 let currentChart;
 
-function createOutlawChart(fatebound, trickster) {
+function createRogueChart(hero1, hero2) {
   if (currentChart) {
     currentChart.destroy();
   }
   currentChart = new Chart(ctx, {
     type: "bar",
     data: {
-      labels: ["Fatebound", "Trickster"],
+      labels: [hero1.hero, hero2.hero],
       datasets: [
         {
           label: "0p ST",
-          data: [fatebound.zeroP, trickster.zeroP],
+          data: [hero1.zeroP, hero2.zeroP],
         },
 
         {
           label: "4p ST",
-          data: [fatebound.fourP, trickster.fourP],
+          data: [hero1.fourP, hero2.fourP],
         },
       ],
     },
