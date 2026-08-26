@@ -1,8 +1,9 @@
-console.log("Hello World");
+console.log("God morgen chat");
 
 let rogueData = [];
 
 let fatebound;
+
 let trickster;
 
 fetch("data/rogue.csv")
@@ -37,9 +38,21 @@ const outlawButton = document.getElementById("outlaw");
 
 const assassinationButton = document.getElementById("assassination");
 
+const subtletyButton = document.getElementById("subtlety");
+
 const heroChoicesDiv = document.getElementById("heroChoices");
 
 const chartContainer = document.getElementById("chartContainer");
+
+subtletyButton.addEventListener("click", function () {
+  console.log("Subtlety button clicked!");
+
+  fetch("data/subtlety.csv")
+    .then((response) => response.text())
+    .then((data) => {
+      console.log(data);
+    });
+});
 
 assassinationButton.addEventListener("click", function () {
   chartContainer.style.display = "block";
