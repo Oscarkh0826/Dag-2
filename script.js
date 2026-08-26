@@ -35,9 +35,15 @@ fetch("data/rogue.csv")
 
 const outlawButton = document.getElementById("outlaw");
 
+const assassinationButton = document.getElementById("assassination");
+
 const heroChoicesDiv = document.getElementById("heroChoices");
 
 const chartContainer = document.getElementById("chartContainer");
+
+assassinationButton.addEventListener("click", function () {
+  console.log("Assassination button clicked!");
+});
 
 outlawButton.addEventListener("click", function () {
   chartContainer.style.display = "block";
