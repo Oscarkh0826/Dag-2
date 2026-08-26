@@ -6,22 +6,24 @@ let fatebound;
 
 let trickster;
 
+function parseCSV(data) {
+  const rows = data.trim().split("\n");
+  const headers = rows[0].split(",");
+
+  return rows.slice(1).map((row) => {
+    const columns = row.split(",");
+    return {
+      hero: columns[0],
+      zeroP: Number(columns[1]),
+      fourP: Number(columns[2]),
+    };
+  });
+}
+
 fetch("data/rogue.csv")
   .then((response) => response.text())
   .then((data) => {
-    const rows = data.trim().split("\n");
-
-    const dataRows = rows.slice(1);
-
-    rogueData = dataRows.map((row) => {
-      const columns = row.split(",");
-
-      return {
-        hero: columns[0],
-        zeroP: Number(columns[1]),
-        fourP: Number(columns[2]),
-      };
-    });
+    rogueData = parseCSV(data);
 
     console.log(rogueData);
 
@@ -52,19 +54,7 @@ subtletyButton.addEventListener("click", function () {
   fetch("data/subtlety.csv")
     .then((response) => response.text())
     .then((data) => {
-      const rows = data.trim().split("\n");
-
-      const dataRows = rows.slice(1);
-
-      const parsedRows = dataRows.map((row) => {
-        const columns = row.split(",");
-
-        return {
-          hero: columns[0],
-          zeroP: Number(columns[1]),
-          fourP: Number(columns[2]),
-        };
-      });
+      const parsedRows = parseCSV(data);
 
       console.log(parsedRows);
 
@@ -116,19 +106,7 @@ assassinationButton.addEventListener("click", function () {
   fetch("data/assassination.csv")
     .then((response) => response.text())
     .then((data) => {
-      const rows = data.trim().split("\n");
-
-      const dataRows = rows.slice(1);
-
-      const parsedRows = dataRows.map((row) => {
-        const columns = row.split(",");
-
-        return {
-          hero: columns[0],
-          zeroP: Number(columns[1]),
-          fourP: Number(columns[2]),
-        };
-      });
+      const parsedRows = parseCSV(data);
 
       console.log(parsedRows);
 
