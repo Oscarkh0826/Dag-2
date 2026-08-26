@@ -45,12 +45,66 @@ const heroChoicesDiv = document.getElementById("heroChoices");
 const chartContainer = document.getElementById("chartContainer");
 
 subtletyButton.addEventListener("click", function () {
+  chartContainer.style.display = "block";
+
   console.log("Subtlety button clicked!");
 
   fetch("data/subtlety.csv")
     .then((response) => response.text())
     .then((data) => {
-      console.log(data);
+      const rows = data.trim().split("\n");
+
+      const dataRows = rows.slice(1);
+
+      const parsedRows = dataRows.map((row) => {
+        const columns = row.split(",");
+
+        return {
+          hero: columns[0],
+          zeroP: Number(columns[1]),
+          fourP: Number(columns[2]),
+        };
+      });
+
+      console.log(parsedRows);
+
+      const subtletyTrickster = parsedRows.find(
+        (row) => row.hero === "Trickster",
+      );
+
+      console.log(subtletyTrickster);
+
+      const subtletyTricksterGain =
+        ((subtletyTrickster.fourP - subtletyTrickster.zeroP) /
+          subtletyTrickster.zeroP) *
+        100;
+
+      const subtletyDeathstalker = parsedRows.find(
+        (row) => row.hero === "Deathstalker",
+      );
+
+      console.log(subtletyDeathstalker);
+
+      const subtletyDeathstalkerGain =
+        ((subtletyDeathstalker.fourP - subtletyDeathstalker.zeroP) /
+          subtletyDeathstalker.zeroP) *
+        100;
+
+      createRogueChart(subtletyTrickster, subtletyDeathstalker);
+
+      console.log(subtletyTricksterGain);
+      console.log(subtletyDeathstalkerGain);
+
+      heroChoicesDiv.innerHTML = `<h4>Trickster</h4>
+      0p ST: ${subtletyTrickster.zeroP}<br>
+      4p ST: ${subtletyTrickster.fourP}<br>
+      Gain: ${subtletyTricksterGain.toFixed(2)}%<br>
+
+      <h4>Deathstalker</h4>
+      0p ST: ${subtletyDeathstalker.zeroP}<br>
+      4p ST: ${subtletyDeathstalker.fourP}<br>
+      Gain: ${subtletyDeathstalkerGain.toFixed(2)}%<br>
+    `;
     });
 });
 
