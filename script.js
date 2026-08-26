@@ -43,7 +43,50 @@ const chartContainer = document.getElementById("chartContainer");
 
 assassinationButton.addEventListener("click", function () {
   console.log("Assassination button clicked!");
+
+  fetch("data/assassination.csv")
+    .then((response) => response.text())
+    .then((data) => {
+    const rows = data.trim().split("\n");
+
+    const dataRows = rows.slice(1);
+
+    const parsedRows = dataRows.map((row) => {
+      const columns = row.split(",");
+
+      return {
+        hero: columns[0],
+        zeroP: Number(columns[1]),
+        fourP: Number(columns[2]),
+      };
 });
+
+console.log(parsedRows);
+const assassinationFatebound = parsedRows.find(
+  (row) => row.hero === "Fatebound");
+);
+
+console.log(assassinationFatebound);
+
+const assassinationDeathstalker = parsedRows.find(
+  (row) => row.hero === "Deathstalker");
+);
+
+console.log(assassinationDeathstalker);
+
+const fateboundGain =
+  ((assassinationFatebound.fourP - assassinationFatebound.zeroP) /
+    assassinationFatebound.zeroP) *
+  100;
+
+const deathstalkerGain =
+  ((assassinationDeathstalker.fourP - assassinationDeathstalker.zeroP) /
+    assassinationDeathstalker.zeroP) *
+  100;
+
+  console.log(assassinationFateboundGain);
+  
+  console.log(assassinationDeathstalkerGain);
 
 outlawButton.addEventListener("click", function () {
   chartContainer.style.display = "block";

@@ -1,12 +1,12 @@
-const ctx = document.getElementById("outlawChart");
+const ctx = document.getElementById("rogueChart");
 
-let outlawChart;
+let currentChart;
 
 function createOutlawChart(fatebound, trickster) {
-  if (outlawChart) {
-    outlawChart.destroy();
+  if (currentChart) {
+    currentChart.destroy();
   }
-  outlawChart = new Chart(ctx, {
+  currentChart = new Chart(ctx, {
     type: "bar",
     data: {
       labels: ["Fatebound", "Trickster"],
