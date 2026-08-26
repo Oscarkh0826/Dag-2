@@ -20,20 +20,45 @@ function parseCSV(data) {
   });
 }
 
-fetch("data/rogue.csv")
+const specs = {
+  outlaw: {
+    file: "data/rogue.csv",
+    heroes: ["Fatebound", "Trickster"],
+  },
+
+  assassination: {
+    file: "data/assassination.csv",
+    heroes: ["Fatebound", "Deathstalker"],
+  },
+
+  subtlety: {
+    file: "data/subtlety.csv",
+    heroes: ["Trickster", "Deathstalker"],
+  },
+};
+
+function loadSpec(specName) {
+  const spec = specs[specName];
+
+  fetch(spec.file)
+    .then((response) => response.text())
+    .then((data) => {
+      const parsedRows = parseCSV(data);
+
+      console.log(parsedRows);
+    });
+}
+
+loadSpec("outlaw");
+
+fetch(specs.outlaw.file)
   .then((response) => response.text())
   .then((data) => {
     rogueData = parseCSV(data);
 
-    console.log(rogueData);
+    fatebound = rogueData.find((row) => row.hero === specs.outlaw.heroes[0]);
 
-    fatebound = rogueData.find((row) => row.hero === "Fatebound");
-
-    console.log(fatebound);
-
-    trickster = rogueData.find((row) => row.hero === "Trickster");
-
-    console.log(trickster);
+    trickster = rogueData.find((row) => row.hero === specs.outlaw.heroes[1]);
   });
 
 const outlawButton = document.getElementById("outlaw");
@@ -49,20 +74,14 @@ const chartContainer = document.getElementById("chartContainer");
 subtletyButton.addEventListener("click", function () {
   chartContainer.style.display = "block";
 
-  console.log("Subtlety button clicked!");
-
-  fetch("data/subtlety.csv")
+  fetch(specs.subtlety.file)
     .then((response) => response.text())
     .then((data) => {
       const parsedRows = parseCSV(data);
 
-      console.log(parsedRows);
-
       const subtletyTrickster = parsedRows.find(
-        (row) => row.hero === "Trickster",
+        (row) => row.hero === specs.subtlety.heroes[0],
       );
-
-      console.log(subtletyTrickster);
 
       const subtletyTricksterGain =
         ((subtletyTrickster.fourP - subtletyTrickster.zeroP) /
@@ -70,10 +89,8 @@ subtletyButton.addEventListener("click", function () {
         100;
 
       const subtletyDeathstalker = parsedRows.find(
-        (row) => row.hero === "Deathstalker",
+        (row) => row.hero === specs.subtlety.heroes[1],
       );
-
-      console.log(subtletyDeathstalker);
 
       const subtletyDeathstalkerGain =
         ((subtletyDeathstalker.fourP - subtletyDeathstalker.zeroP) /
@@ -101,26 +118,18 @@ subtletyButton.addEventListener("click", function () {
 assassinationButton.addEventListener("click", function () {
   chartContainer.style.display = "block";
 
-  console.log("Assassination button clicked!");
-
-  fetch("data/assassination.csv")
+  fetch(specs.assassination.file)
     .then((response) => response.text())
     .then((data) => {
       const parsedRows = parseCSV(data);
 
-      console.log(parsedRows);
-
       const assassinationFatebound = parsedRows.find(
-        (row) => row.hero === "Fatebound",
+        (row) => row.hero === specs.assassination.heroes[0],
       );
-
-      console.log(assassinationFatebound);
 
       const assassinationDeathstalker = parsedRows.find(
-        (row) => row.hero === "Deathstalker",
+        (row) => row.hero === specs.assassination.heroes[1],
       );
-
-      console.log(assassinationDeathstalker);
 
       const fateboundGain =
         ((assassinationFatebound.fourP - assassinationFatebound.zeroP) /
@@ -153,8 +162,6 @@ assassinationButton.addEventListener("click", function () {
 
 outlawButton.addEventListener("click", function () {
   chartContainer.style.display = "block";
-
-  console.log("Outlaw button clicked!");
 
   if (!fatebound || !trickster) {
     console.log("CSV data not loaded yet. Please wait.");
