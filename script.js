@@ -2,6 +2,10 @@ console.log("God morgen chat");
 
 let rogueData = [];
 
+let assassinationData = [];
+
+let subtletyData = [];
+
 let fatebound;
 
 let trickster;
@@ -40,26 +44,28 @@ const specs = {
 function loadSpec(specName) {
   const spec = specs[specName];
 
-  fetch(spec.file)
+  return fetch(spec.file)
     .then((response) => response.text())
     .then((data) => {
-      const parsedRows = parseCSV(data);
-
-      console.log(parsedRows);
+      return parseCSV(data);
     });
 }
 
-loadSpec("outlaw");
+loadSpec("outlaw").then((parsedRows) => {
+  rogueData = parsedRows;
 
-fetch(specs.outlaw.file)
-  .then((response) => response.text())
-  .then((data) => {
-    rogueData = parseCSV(data);
+  fatebound = rogueData.find((row) => row.hero === specs.outlaw.heroes[0]);
 
-    fatebound = rogueData.find((row) => row.hero === specs.outlaw.heroes[0]);
+  trickster = rogueData.find((row) => row.hero === specs.outlaw.heroes[1]);
+});
 
-    trickster = rogueData.find((row) => row.hero === specs.outlaw.heroes[1]);
-  });
+loadSpec("assassination").then((parsedRows) => {
+  assassinationData = parsedRows;
+});
+
+loadSpec("subtlety").then((parsedRows) => {
+  subtletyData = parsedRows;
+});
 
 const outlawButton = document.getElementById("outlaw");
 
@@ -74,35 +80,35 @@ const chartContainer = document.getElementById("chartContainer");
 subtletyButton.addEventListener("click", function () {
   chartContainer.style.display = "block";
 
-  fetch(specs.subtlety.file)
-    .then((response) => response.text())
-    .then((data) => {
-      const parsedRows = parseCSV(data);
+  if (subtletyData.length === 0) {
+    console.log("CSV data not loaded yet. Please wait.");
+    return;
+  }
 
-      const subtletyTrickster = parsedRows.find(
-        (row) => row.hero === specs.subtlety.heroes[0],
-      );
+  const subtletyTrickster = subtletyData.find(
+    (row) => row.hero === specs.subtlety.heroes[0],
+  );
 
-      const subtletyTricksterGain =
-        ((subtletyTrickster.fourP - subtletyTrickster.zeroP) /
-          subtletyTrickster.zeroP) *
-        100;
+  const subtletyTricksterGain =
+    ((subtletyTrickster.fourP - subtletyTrickster.zeroP) /
+      subtletyTrickster.zeroP) *
+    100;
 
-      const subtletyDeathstalker = parsedRows.find(
-        (row) => row.hero === specs.subtlety.heroes[1],
-      );
+  const subtletyDeathstalker = subtletyData.find(
+    (row) => row.hero === specs.subtlety.heroes[1],
+  );
 
-      const subtletyDeathstalkerGain =
-        ((subtletyDeathstalker.fourP - subtletyDeathstalker.zeroP) /
-          subtletyDeathstalker.zeroP) *
-        100;
+  const subtletyDeathstalkerGain =
+    ((subtletyDeathstalker.fourP - subtletyDeathstalker.zeroP) /
+      subtletyDeathstalker.zeroP) *
+    100;
 
-      createRogueChart(subtletyTrickster, subtletyDeathstalker);
+  createRogueChart(subtletyTrickster, subtletyDeathstalker);
 
-      console.log(subtletyTricksterGain);
-      console.log(subtletyDeathstalkerGain);
+  console.log(subtletyTricksterGain);
+  console.log(subtletyDeathstalkerGain);
 
-      heroChoicesDiv.innerHTML = `<h4>Trickster</h4>
+  heroChoicesDiv.innerHTML = `<h4>Trickster</h4>
       0p ST: ${subtletyTrickster.zeroP}<br>
       4p ST: ${subtletyTrickster.fourP}<br>
       Gain: ${subtletyTricksterGain.toFixed(2)}%<br>
@@ -112,42 +118,41 @@ subtletyButton.addEventListener("click", function () {
       4p ST: ${subtletyDeathstalker.fourP}<br>
       Gain: ${subtletyDeathstalkerGain.toFixed(2)}%<br>
     `;
-    });
 });
 
 assassinationButton.addEventListener("click", function () {
   chartContainer.style.display = "block";
 
-  fetch(specs.assassination.file)
-    .then((response) => response.text())
-    .then((data) => {
-      const parsedRows = parseCSV(data);
+  if (assassinationData.length === 0) {
+    console.log("CSV data not loaded yet. Please wait.");
+    return;
+  }
 
-      const assassinationFatebound = parsedRows.find(
-        (row) => row.hero === specs.assassination.heroes[0],
-      );
+  const assassinationFatebound = assassinationData.find(
+    (row) => row.hero === specs.assassination.heroes[0],
+  );
 
-      const assassinationDeathstalker = parsedRows.find(
-        (row) => row.hero === specs.assassination.heroes[1],
-      );
+  const assassinationDeathstalker = assassinationData.find(
+    (row) => row.hero === specs.assassination.heroes[1],
+  );
 
-      const fateboundGain =
-        ((assassinationFatebound.fourP - assassinationFatebound.zeroP) /
-          assassinationFatebound.zeroP) *
-        100;
+  const fateboundGain =
+    ((assassinationFatebound.fourP - assassinationFatebound.zeroP) /
+      assassinationFatebound.zeroP) *
+    100;
 
-      const deathstalkerGain =
-        ((assassinationDeathstalker.fourP - assassinationDeathstalker.zeroP) /
-          assassinationDeathstalker.zeroP) *
-        100;
+  const deathstalkerGain =
+    ((assassinationDeathstalker.fourP - assassinationDeathstalker.zeroP) /
+      assassinationDeathstalker.zeroP) *
+    100;
 
-      createRogueChart(assassinationFatebound, assassinationDeathstalker);
+  createRogueChart(assassinationFatebound, assassinationDeathstalker);
 
-      console.log(fateboundGain);
+  console.log(fateboundGain);
 
-      console.log(deathstalkerGain);
+  console.log(deathstalkerGain);
 
-      heroChoicesDiv.innerHTML = `<h4>Fatebound</h4>
+  heroChoicesDiv.innerHTML = `<h4>Fatebound</h4>
       0p ST: ${assassinationFatebound.zeroP}<br>
       4p ST: ${assassinationFatebound.fourP}<br>
       Gain: ${fateboundGain.toFixed(2)}%<br>
@@ -157,7 +162,6 @@ assassinationButton.addEventListener("click", function () {
       4p ST: ${assassinationDeathstalker.fourP}<br>
       Gain: ${deathstalkerGain.toFixed(2)}%<br>
     `;
-    });
 });
 
 outlawButton.addEventListener("click", function () {
