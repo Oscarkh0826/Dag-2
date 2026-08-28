@@ -250,3 +250,43 @@ windwalkerButton.addEventListener("click", function () {
       Gain: ${windwalkerShadopanGain.toFixed(2)}%<br>
     `;
 });
+
+brewmasterButton.addEventListener("click", function () {
+  chartContainer.style.display = "block";
+
+  if (brewmasterData.length === 0) {
+    console.log("CSV data not loaded yet. Please wait.");
+    return;
+  }
+
+  const brewmasterHarmony = brewmasterData.find(
+    (row) => row.hero === specs.brewmaster.heroes[0],
+  );
+
+  const brewmasterHarmonyGain =
+    ((brewmasterHarmony.fourP - brewmasterHarmony.zeroP) /
+      brewmasterHarmony.zeroP) *
+    100;
+
+  const brewmasterShadopan = brewmasterData.find(
+    (row) => row.hero === specs.brewmaster.heroes[1],
+  );
+
+  const brewmasterShadopanGain =
+    ((brewmasterShadopan.fourP - brewmasterShadopan.zeroP) /
+      brewmasterShadopan.zeroP) *
+    100;
+
+  createRogueChart(brewmasterHarmony, brewmasterShadopan);
+
+  heroChoicesDiv.innerHTML = `<h4>Harmony</h4>
+      0p ST: ${brewmasterHarmony.zeroP}<br>
+      4p ST: ${brewmasterHarmony.fourP}<br>
+      Gain: ${brewmasterHarmonyGain.toFixed(2)}%<br>
+
+      <h4>Shado-Pan</h4>
+      0p ST: ${brewmasterShadopan.zeroP}<br>
+      4p ST: ${brewmasterShadopan.fourP}<br>
+      Gain: ${brewmasterShadopanGain.toFixed(2)}%<br>
+    `;
+});
