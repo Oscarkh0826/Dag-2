@@ -45,13 +45,13 @@ const specs = {
   },
 
   windwalker: {
-    file: "data/windwalker.csv"
-    heroes: ["Conduit", "Shado-pan"],
+    file: "data/windwalker.csv",
+    heroes: ["Conduit", "Shadopan"],
   },
 
   brewmaster: {
-    file: "data/brewmaster.csv"
-    heroes: ["Harmony", Shado-pan],
+    file: "data/brewmaster.csv",
+    heroes: ["Harmony", "Shadopan"],
   },
 };
 
@@ -81,23 +81,12 @@ loadSpec("subtlety").then((parsedRows) => {
   subtletyData = parsedRows;
 });
 
-loadSpec("conduit").then((parsedRows) =>{
+loadSpec("windwalker").then((parsedRows) => {
   windwalkerData = parsedRows;
 });
 
-loadSpec("shado-pan").then((parsedRows) => {
-  windwalkerData = parsedRows;
-
-});
-
-loadSpec("harmony").then((parsedRows) => {
+loadSpec("brewmaster").then((parsedRows) => {
   brewmasterData = parsedRows;
-
-});
-
-loadSpec("shado-pan").then((parsedRows) => {
-  brewmasterData = parsedRows;
-
 });
 
 const outlawButton = document.getElementById("outlaw");
@@ -105,6 +94,10 @@ const outlawButton = document.getElementById("outlaw");
 const assassinationButton = document.getElementById("assassination");
 
 const subtletyButton = document.getElementById("subtlety");
+
+const windwalkerButton = document.getElementById("windwalker");
+
+const brewmasterButton = document.getElementById("brewmaster");
 
 const heroChoicesDiv = document.getElementById("heroChoices");
 
@@ -216,4 +209,44 @@ outlawButton.addEventListener("click", function () {
   4p ST: ${trickster.fourP}<br>
   Gain: ${tricksterGain.toFixed(2)}%<br>
 `;
+});
+
+windwalkerButton.addEventListener("click", function () {
+  chartContainer.style.display = "block";
+
+  if (windwalkerData.length === 0) {
+    console.log("CSV data not loaded yet. Please wait.");
+    return;
+  }
+
+  const windwalkerConduit = windwalkerData.find(
+    (row) => row.hero === specs.windwalker.heroes[0],
+  );
+
+  const windwalkerConduitGain =
+    ((windwalkerConduit.fourP - windwalkerConduit.zeroP) /
+      windwalkerConduit.zeroP) *
+    100;
+
+  const windwalkerShadopan = windwalkerData.find(
+    (row) => row.hero === specs.windwalker.heroes[1],
+  );
+
+  const windwalkerShadopanGain =
+    ((windwalkerShadopan.fourP - windwalkerShadopan.zeroP) /
+      windwalkerShadopan.zeroP) *
+    100;
+
+  createRogueChart(windwalkerConduit, windwalkerShadopan);
+
+  heroChoicesDiv.innerHTML = `<h4>Conduit</h4>
+      0p ST: ${windwalkerConduit.zeroP}<br>
+      4p ST: ${windwalkerConduit.fourP}<br>
+      Gain: ${windwalkerConduitGain.toFixed(2)}%<br>
+
+      <h4>Shado-Pan</h4>
+      0p ST: ${windwalkerShadopan.zeroP}<br>
+      4p ST: ${windwalkerShadopan.fourP}<br>
+      Gain: ${windwalkerShadopanGain.toFixed(2)}%<br>
+    `;
 });
