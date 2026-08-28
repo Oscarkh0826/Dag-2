@@ -105,9 +105,6 @@ subtletyButton.addEventListener("click", function () {
 
   createRogueChart(subtletyTrickster, subtletyDeathstalker);
 
-  console.log(subtletyTricksterGain);
-  console.log(subtletyDeathstalkerGain);
-
   heroChoicesDiv.innerHTML = `<h4>Trickster</h4>
       0p ST: ${subtletyTrickster.zeroP}<br>
       4p ST: ${subtletyTrickster.fourP}<br>
@@ -147,10 +144,6 @@ assassinationButton.addEventListener("click", function () {
     100;
 
   createRogueChart(assassinationFatebound, assassinationDeathstalker);
-
-  console.log(fateboundGain);
-
-  console.log(deathstalkerGain);
 
   heroChoicesDiv.innerHTML = `<h4>Fatebound</h4>
       0p ST: ${assassinationFatebound.zeroP}<br>
