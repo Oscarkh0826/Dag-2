@@ -10,6 +10,10 @@ let fatebound;
 
 let trickster;
 
+let brewmasterData = [];
+
+let windwalkerData = [];
+
 function parseCSV(data) {
   const rows = data.trim().split("\n");
   const headers = rows[0].split(",");
@@ -39,6 +43,16 @@ const specs = {
     file: "data/subtlety.csv",
     heroes: ["Trickster", "Deathstalker"],
   },
+
+  windwalker: {
+    file: "data/windwalker.csv"
+    heroes: ["Conduit", "Shado-pan"],
+  },
+
+  brewmaster: {
+    file: "data/brewmaster.csv"
+    heroes: ["Harmony", Shado-pan],
+  },
 };
 
 function loadSpec(specName) {
@@ -65,6 +79,25 @@ loadSpec("assassination").then((parsedRows) => {
 
 loadSpec("subtlety").then((parsedRows) => {
   subtletyData = parsedRows;
+});
+
+loadSpec("conduit").then((parsedRows) =>{
+  windwalkerData = parsedRows;
+});
+
+loadSpec("shado-pan").then((parsedRows) => {
+  windwalkerData = parsedRows;
+
+});
+
+loadSpec("harmony").then((parsedRows) => {
+  brewmasterData = parsedRows;
+
+});
+
+loadSpec("shado-pan").then((parsedRows) => {
+  brewmasterData = parsedRows;
+
 });
 
 const outlawButton = document.getElementById("outlaw");
